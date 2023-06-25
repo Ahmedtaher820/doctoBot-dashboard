@@ -1,0 +1,38 @@
+  /* Register Styles */
+  .form-field {
+    position: relative;
+}
+
+.form-field label {
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    transition: all 0.3s ease;
+    z-index: 2;
+    font-size: 14px;
+    color: #707070;
+}
+
+.form-field input,
+.form-field .vue-tel-input {
+    background-color: transparent;
+    padding: 8px;
+    border-bottom: 1px solid #707070;
+}
+
+.form-field input:focus+label,
+.form-field .vue-tel-input:focus+label,
+input:not(:placeholder-shown)~label {
+    top: -10px;
+    left: 0;
+    font-size: 12px;
+}
+
+input:focus {
+    outline: none;
+
+}
+.error-msg{
+    color: rgba(255, 0, 0, 0.758);
+    font-size: 14px;
+}
