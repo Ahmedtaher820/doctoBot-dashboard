@@ -29,7 +29,7 @@ const headers = {
 if(doctorsState.value.length === 0){
 
   const { data: doctors, refresh, pending } = await useAsyncData<Doctors[]>('posts', () =>
-  $fetch(`${config.public.apiUrl}/doctors`, {
+  $fetch(`https://doctobot.onrender.com/doctobot/doctors`, {
     params: {
       page: page.value,
     },
