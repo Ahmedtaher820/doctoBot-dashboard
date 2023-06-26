@@ -3,7 +3,7 @@ import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuIt
 import { Bars3Icon, BellIcon, XMarkIcon, CogIcon  } from '@heroicons/vue/24/outline'
 import { PlusIcon } from '@heroicons/vue/20/solid'
 
-const colorMode = useColorMode()
+// const colorMode = useColorMode()
 const nav = ref([
   {
     path: '/',
@@ -61,6 +61,10 @@ const nav = ref([
         `
       },
 ])
+const logout = ()=>{
+  localStorage.clear()
+  navigateTo('/login')
+}
 </script>
 <template>
   <Disclosure as="nav" class="shadow" v-slot="{ open }">
@@ -119,7 +123,9 @@ const nav = ref([
                     <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Settings</a>
                   </MenuItem>
                   <MenuItem v-slot="{ active }">
-                    <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Sign out</a>
+                    <span  :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']" to="/" class="block px-4 py-2 text-base font-medium text-gray-500  sm:px-6">
+                      <span class="block cursor-pointer" @click="logout">Sign out</span>
+                    </span>
                   </MenuItem>
                 </MenuItems>
               </transition>
@@ -154,7 +160,9 @@ const nav = ref([
         <div class="mt-3 space-y-1">
           <DisclosureButton as="a" href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Your Profile</DisclosureButton>
           <DisclosureButton as="a" href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Settings</DisclosureButton>
-          <DisclosureButton as="a" href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Sign out</DisclosureButton>
+          <router-link to="/" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">
+            <span @click="logout">Sign out</span>
+          </router-link>
         </div>
       </div>
     </DisclosurePanel>

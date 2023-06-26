@@ -32,6 +32,13 @@ runtimeConfig: {
     apiUrl: process.env.BASE_URL,
   },
 },
+loadingIndicator:{
+  background: '#000'
+},
+build:{
+  // vue-toastification - old commonjs module 
+  transpile: ['vue-toastification'],
+}
 // components: [
 //   {
 //     path: '~/components',

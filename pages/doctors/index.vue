@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import {authStore} from "../../store/doctors"
+import {doctorsAuth} from "../../store/doctors"
 import type {Doctors} from "@/types/types"
+import { useDoctors } from "~/composables/useState"
 useHead({
   title:'Doctors',
   meta:[
@@ -27,7 +28,6 @@ const headers = {
     Authorization: token
 }
 if(doctorsState.value.length === 0){
-
   const { data: doctors, refresh, pending } = await useAsyncData<Doctors[]>('posts', () =>
   $fetch(`https://doctobot.onrender.com/doctobot/doctors`, {
     params: {
@@ -41,9 +41,27 @@ if(doctorsState.value.length === 0){
   )
   doctorsState.value = doctors.value?.data
 }
+const showModal = ref(false)
+const selectedDoctors = ref<Doctors>()
+const editDoc = (info: Doctors)=>{
+  showModal.value = true
+  selectedDoctors.value = info
+}
+const {deleteDoctors} = doctorsAuth()
+const showConfirmModal = ref(false)
+const deleteDoc = (info: Doctors)=>{
+ selectedDoctors.value = info
+ showConfirmModal.value = true
+}
+const deleteNursesConfirm = ()=>{
+  deleteDoctors(selectedDoctors.value?._id)
+}
 </script>
 <template>
   <div>
+    <AppConfirmModal :show="showConfirmModal" @close="showConfirmModal = false" @cancel="showConfirmModal = false" @delete="deleteNursesConfirm" cateInfo="Doctor info" />
+  <DoctorsModifyDoctorsModal :doctors="selectedDoctors" :show="showModal" @close="showModal = false" />
+
     <SystemTable @add="addDoctor">
       <template #grid-header>
         <tr>
@@ -84,8 +102,8 @@ if(doctorsState.value.length === 0){
         <SystemTableThGrid >{{ doctor.specialiaty }}</SystemTableThGrid>
         <td
           class="relative flex gap-4 justify-end whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-          <button @click="$emit('edit')" type="button" class="text-indigo-600 hover:text-indigo-900">Edit</button>
-          <button @click="$emit('delete')" type="button" class="text-red-600 hover:text-red-900">Remvoe</button>
+          <button @click="editDoc(doctor)" type="button" class="text-indigo-600 hover:text-indigo-900">Edit</button>
+          <button @click="deleteDoc(doctor)" type="button" class="text-red-600 hover:text-red-900">Remvoe</button>
         </td>
       </tr>
     </SystemTable>

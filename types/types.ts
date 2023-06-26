@@ -35,20 +35,21 @@ export interface Paginate {
     prev: number
 }
 export interface Doctors {
-    _id: string
+    _id?: string
     name: string
     age: string
     specialiaty: string
     educationYears: string
     whatsapp: string
     experienceYears: string
-    isAvailable: boolean
+    isAvailable?: boolean
     contactNumber: string
     email: string
     address: string
-    image: string
-    created_at: string
+    image?: File | null
+    created_at?: string
     rating: string
+    price:string
 }
 export interface Nurses {
     _id?: string
@@ -57,13 +58,14 @@ export interface Nurses {
     shift: string
     experienceYears: string
     whatsapp: string
-    isAvailable: boolean
+    isAvailable?: boolean
     contactNumber: string
     email: string
     address: string
     image: string
-    created_at: string
+    created_at?: string
     rating: string
+    price: string
 }
 
 

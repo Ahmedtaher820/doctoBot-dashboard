@@ -1,18 +1,17 @@
 
 <script lang="ts" setup>
-import { PropType } from "nuxt/dist/app/compat/capi"
-import { Doctors } from "~/types/types"
+import { Nurses } from "~/types/types"
 import { useVuelidate } from "@vuelidate/core"
 import { required, minLength, email } from "@vuelidate/validators"
 import { toast } from 'vue3-toastify'
-import {doctorsAuth} from "@/store/doctors"
+import { nursesStore } from "@/store/nurses"
 const props = defineProps({
     showModal: {
         type: Boolean,
         default: false
     },
-    doctors: {
-        type: Object as PropType<Doctors | undefined>
+    nurses: {
+        type: Object as PropType<Nurses | undefined>
     }
 })
 const emits = defineEmits(['close'])
@@ -21,17 +20,14 @@ const formData = reactive({
     name: '',
     email: '',
     contactNumber: '',
-    specialiaty: '',
+    shift: '',
     address: '',
-    educationYears: '',
     experienceYears: '',
     age: '',
     whatsapp: '',
     image: null,
     rating: '',
     price: '',
-
-
 })
 const rules = {
     name: {
@@ -42,12 +38,8 @@ const rules = {
         required,
         email,
     },
-    specialiaty: {
+    shift: {
         required,
-    },
-    educationYears: {
-        required,
-
     },
     experienceYears: {
         required,
@@ -73,32 +65,28 @@ const rules = {
 }
 const $v = useVuelidate(rules, formData)
 const imgUrl = ref('')
-const { doctors } = toRefs(props)
-watch(() => doctors?.value, (val: Doctors) => {
-    formData.name = doctors?.value?.name || ''
-    formData.specialiaty = doctors?.value?.specialiaty || ''
-    formData.contactNumber = doctors?.value?.contactNumber || ''
-    formData.email = doctors?.value?.email || ''
-    formData.address = doctors?.value?.address || ''
-    formData.price = doctors?.value?.price || '100'
-    formData.rating = doctors?.value?.rating || ''
-    formData.educationYears = doctors?.value?.educationYears || ''
-    formData.experienceYears = doctors?.value?.experienceYears || ''
-    formData.age = doctors?.value?.age || ''
-    imgUrl.value = doctors?.value?.image || ''
+const { nurses } = toRefs(props)
+watch(() => nurses?.value, (val: Nurses) => {
+    formData.name = nurses?.value?.name || ''
+    formData.shift = nurses?.value?.shift || ''
+    formData.contactNumber = nurses?.value?.contactNumber || ''
+    formData.email = nurses?.value?.email || ''
+    formData.address = nurses?.value?.address || ''
+    formData.price = nurses?.value?.price || '100'
+    formData.rating = nurses?.value?.rating || ''
+    formData.experienceYears = nurses?.value?.experienceYears || ''
+    formData.age = nurses?.value?.age || ''
+    imgUrl.value = nurses?.value?.image || ''
 })
 const showModal = ref(true)
-const closeModal = () => {
-
-}
 const processing = ref(false)
-const {updateDoctors} = doctorsAuth()
+const { updateNurses } = nursesStore()
 const submitForm = () => {
     console.log(formData)
     $v.value.$touch()
     if ($v.value.$invalid || processing.value)
         return
-        updateDoctors(formData).then((res) => {
+    updateNurses(formData).then((res) => {
         console.log(res)
     })
 }
@@ -107,8 +95,7 @@ const getImage = (event) => {
 }
 </script>
 <template>
-    
-    <AppModal :show="showModal" @close="$emit('close')" title="Update Doctors">
+    <AppModal :show="showModal" @close="$emit('close')" title="Update Nurses">
         <form @submit.prevent="submitForm" class=" flex flex-col mt-8 md:mt-0 gap-6 md:col-span-1 col-span-2">
             <div class="form-field pass">
                 <input type="text" class="w-full dark:text-white text-black" placeholder=" " v-model="formData.name" />
@@ -119,10 +106,9 @@ const getImage = (event) => {
             </div>
 
             <div class="form-field ">
-                <input type="text" class="w-full dark:text-white text-black" placeholder=" "
-                    v-model="formData.specialiaty" />
-                <label class="dark:text-white text-black">specialiaty</label>
-                <div class="input-errors" v-for="error of $v.specialiaty.$errors" :key="error.$uid">
+                <input type="text" class="w-full dark:text-white text-black" placeholder=" " v-model="formData.shift" />
+                <label class="dark:text-white text-black">Shift</label>
+                <div class="input-errors" v-for="error of $v.shift.$errors" :key="error.$uid">
                     <div class="error-msg">{{ error.$message }}</div>
                 </div>
             </div>
@@ -165,14 +151,6 @@ const getImage = (event) => {
                     <div class="error-msg">{{ error.$message }}</div>
                 </div>
             </div>
-            <div class="form-field ">
-                <input type="number" class="w-full dark:text-white text-black" placeholder=" "
-                    v-model="formData.educationYears" />
-                <label class="dark:text-white text-black">Education Years</label>
-                <div class="input-errors" v-for="error of $v.educationYears.$errors" :key="error.$uid">
-                    <div class="error-msg">{{ error.$message }}</div>
-                </div>
-            </div>
 
             <div class="form-field ">
                 <input type="number" class="w-full dark:text-white text-black" placeholder=" "
@@ -202,8 +180,9 @@ const getImage = (event) => {
                     <img class="w-16 h-16 rounded-full " :src="imgUrl" alt="">
                 </div>
             </div>
-        <FormBaseButton type="submit" custome-bg="bg-green-500" class="text-white w-1/4 ms-auto md:mt-6 rounded-none">
-            Create
-        </FormBaseButton>
-    </form>
-</AppModal></template>
+            <FormBaseButton type="submit" custome-bg="bg-green-500" class="text-white w-1/4 ms-auto md:mt-6 rounded-none">
+                Create
+            </FormBaseButton>
+        </form>
+    </AppModal>
+</template>
