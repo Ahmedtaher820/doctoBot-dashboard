@@ -4,7 +4,7 @@
 <template>
     <div>
         <app-navigation />
-        <div class="md:px-16 px-8  pt-8 pb-4 content" style="background-color: #F5F5F5">
+        <div class="md:px-16 px-8  pt-8 pb-4 content    bg-bodyColorLight dark:bg-bodyColorDark" style="background-color: ">
             <NuxtLoadingIndicator />
             <slot />
         </div>

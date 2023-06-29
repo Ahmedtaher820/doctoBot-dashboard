@@ -67,28 +67,28 @@ const logout = ()=>{
 }
 </script>
 <template>
-  <Disclosure as="nav" class="shadow" v-slot="{ open }">
+  <Disclosure as="nav" class="shadow " v-slot="{ open }">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex h-16 justify-between">
-        <div class="flex">
-          <div class="-ml-2 mr-2 flex items-center md:hidden">
+        <div class="flex flex-1 md:flex-none">
+          <div class="-ml-2 mr-2 flex-1 flex items-center justify-between">
             <!-- Mobile menu button -->
-            <DisclosureButton class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+            <div class="flex flex-shrink-0 items-center">
+              <img class="block h-8 w-auto lg:hidden" src="/logo.svg" alt="Your Company" />
+              <img class="hidden h-8 w-auto lg:block" src="/logo.svg" alt="Your Company" />
+            </div>
+            <DisclosureButton class="block lg:hidden items-center justify-center rounded-md p-2 text-gray-400  hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
               <span class="sr-only">Open main menu</span>
               <Bars3Icon v-if="!open" class="block h-6 w-6" aria-hidden="true" />
               <XMarkIcon v-else class="block h-6 w-6" aria-hidden="true" />
             </DisclosureButton>
-          </div>
-          <div class="flex flex-shrink-0 items-center">
-            <img class="block h-8 w-auto lg:hidden" src="/logo.svg" alt="Your Company" />
-            <img class="hidden h-8 w-auto lg:block" src="/logo.svg" alt="Your Company" />
           </div>
         </div>
         <div class="hidden md:ml-6 md:flex  flex-1 mx-auto justify-center">
           <!-- Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
           <router-link class="flex items-center gap-2 py-2 px-6  dark:text-white" :class="{'router-link-exact-active router-link-active': (($route.name === 'doctors' || $route.name === 'doctors-slug' || $route.name === 'doctors-createDoctors') && link.path === '/doctors') || (($route.name === 'nurses' || $route.name === 'nurses-slug' || $route.name === 'nurses-createNurses') && link.path === '/nurses')}" v-for="(link,index) in nav" :key="index" :to="link.path">
             <!-- <span v-html="link.icon" /> -->
-            <span>{{link.name}}</span>
+            <span @click="open = false">{{link.name}}</span>
 
           </router-link>
           <!-- <a href="#" class="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium ">Dashboard</a>
@@ -98,10 +98,6 @@ const logout = ()=>{
         </div>
         <div class="flex items-center">
           <div class="hidden md:ml-4 md:flex md:flex-shrink-0 md:items-center">
-            <button type="button" class="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-              <span class="sr-only">View notifications</span>
-              <CogIcon class="h-6 w-6" aria-hidden="true" />
-            </button>
             <select v-model="$colorMode.preference">
               <option value="light">Light</option>
               <option value="dark">Dark</option>
@@ -138,10 +134,11 @@ const logout = ()=>{
     <DisclosurePanel class="md:hidden">
       <div class="space-y-1 pb-3 pt-2">
         <!-- Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" -->
-        <DisclosureButton as="a" href="#" class="block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700 sm:pl-5 sm:pr-6">Dashboard</DisclosureButton>
-        <DisclosureButton as="a" href="#" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pl-5 sm:pr-6">Team</DisclosureButton>
-        <DisclosureButton as="a" href="#" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pl-5 sm:pr-6">Projects</DisclosureButton>
-        <DisclosureButton as="a" href="#" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pl-5 sm:pr-6">Calendar</DisclosureButton>
+        <router-link class="flex items-center gap-2 py-2 px-6  dark:text-white" :class="{'router-link-exact-active router-link-active': (($route.name === 'doctors' || $route.name === 'doctors-slug' || $route.name === 'doctors-createDoctors') && link.path === '/doctors') || (($route.name === 'nurses' || $route.name === 'nurses-slug' || $route.name === 'nurses-createNurses') && link.path === '/nurses')}" v-for="(link,index) in nav" :key="index" :to="link.path">
+          <!-- <span v-html="link.icon" /> -->
+          <span>{{link.name}}</span>
+
+        </router-link>
       </div>
       <div class="border-t border-gray-200 pb-3 pt-4">
         <div class="flex items-center px-4 sm:px-6">
@@ -160,9 +157,9 @@ const logout = ()=>{
         <div class="mt-3 space-y-1">
           <DisclosureButton as="a" href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Your Profile</DisclosureButton>
           <DisclosureButton as="a" href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Settings</DisclosureButton>
-          <router-link to="/" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">
+          <DisclosureButton to="/" class="block px-4 py-2 text-base font-medium text-gray-500  hover:bg-gray-100 hover:text-gray-800 w-full text-left sm:px-6">
             <span @click="logout">Sign out</span>
-          </router-link>
+          </DisclosureButton>
         </div>
       </div>
     </DisclosurePanel>

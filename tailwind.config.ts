@@ -9,6 +9,12 @@ const primary = {
   200:'#595cff47',
   100:'#595cff33'
 }
+const bodyColorLight = {
+  DEFAULT : '#F5F5F5'
+}
+const bodyColorDark = {
+  DEFAULT : '#0f172a'
+}
 const textColor = {
   DEFAULT: '#707070',
 }
@@ -18,7 +24,9 @@ export default <Partial<Config>>{
     extend:{
       colors:{
         primary,
-        textColor
+        textColor,
+        bodyColorLight,
+        bodyColorDark
       }
     }
   },

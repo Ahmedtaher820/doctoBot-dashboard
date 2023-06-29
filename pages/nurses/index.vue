@@ -29,7 +29,7 @@ const headers = {
 }
 if(nursesState.value.length === 0){
 
-  const { data: doctors, refresh, pending } = await useAsyncData<Doctors[]>('posts', () =>
+  const { data: doctors, refresh, pending } = await useAsyncData<Doctors[]>('nurses', () =>
   $fetch(`https://doctobot.onrender.com/doctobot/nurses`, {
     params: {
       page: page.value,
@@ -56,7 +56,9 @@ const deleteNursesFun = (val:Nurses)=>{
   showConfirmModal.value = true
 }
 const deleteNursesConfirm = ()=>{
-  deleteNurses(selectedNurses.value?._id)
+  deleteNurses(selectedNurses.value?._id).then(()=>{
+    refreshNuxtData('nurses')
+  })
 }
 </script>
 <template>
@@ -64,7 +66,7 @@ const deleteNursesConfirm = ()=>{
     <AppConfirmModal :show="showConfirmModal" @close="showConfirmModal = false" @cancel="showConfirmModal = false" @delete="deleteNursesConfirm" cateInfo="Nurses info" />
   <NursesModifyNursesModal :nurses="selectedNurses" :show="showModal" @close="showModal = false" />
 
-    <SystemTable @add="addDoctor">
+    <SystemTable @add="addDoctor" class="shadow-md shadow-gray-200">
       <template #grid-header>
         <tr>
           <SystemTableThGrid
@@ -105,7 +107,7 @@ const deleteNursesConfirm = ()=>{
         <SystemTableThGrid
           class="relative flex gap-4 justify-end whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
           <button @click="editNurses(nurses)" type="button" class="text-indigo-600 hover:text-indigo-900">Edit</button>
-          <button @click="deleteNursesFun(nurses)" type="button" class="text-red-600 hover:text-red-900">Remvoe</button>
+          <button @click="deleteNursesFun(nurses)" type="button" class="text-red-600 hover:text-red-900">Remove</button>
         </SystemTableThGrid>
       </tr>
     </SystemTable>

@@ -82,7 +82,6 @@ const showModal = ref(true)
 const processing = ref(false)
 const { updateNurses } = nursesStore()
 const submitForm = () => {
-    console.log(formData)
     $v.value.$touch()
     if ($v.value.$invalid || processing.value)
         return

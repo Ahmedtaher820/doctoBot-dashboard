@@ -24,8 +24,8 @@ export const doctorsAuth = defineStore({
                 return res
             }) 
         },
-        async updateDoctors(payload:Doctors){
-            return doctorsServices.updateDoctors(payload).then((res)=>{
+        async updateDoctors(payload:Doctors,uuid: string){
+            return doctorsServices.updateDoctors(payload,uuid).then((res)=>{
                 return res
             })
         }

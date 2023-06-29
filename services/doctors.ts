@@ -16,8 +16,8 @@ export default {
             },
         })
     },
-    updateDoctors(payload: Doctors) {
-        return DataServices().put('/doctors', {
+    updateDoctors(payload: Doctors, uuid: string) {
+        return DataServices().put(`/doctors/${uuid}`, {
             body: payload,
             headers: {
                 'Content-Type': 'multipart/form-data',

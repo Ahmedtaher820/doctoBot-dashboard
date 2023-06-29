@@ -24,21 +24,24 @@ const rules = {
 }
 const v$ = useVuelidate(rules, formdata)
 const processing = ref(false)
-const errHandle = ref<{ value: '', msg: '' }[]>()
+const errHandle = ref<{ value: '', status: '' }[]>([])
+const errAdmin = ref('')
 const handleSubmit = async () => {
+    errAdmin.value = ''
     v$.value.$touch()
     if (v$.value.$invalid)
         return
     processing.value = true
     
     login(formdata).then((res)=>{
-        console.log(res)
         localStorage.setItem('admin-token',JSON.stringify(res.token))
+        if(res.data.role !== 'admin'){
+            errAdmin.value = 'You don\'t have permission to login as admin'
+            return
+        }
         navigateTo('/')
     }).catch((err)=>{
-        toast.error(err.message,{
-            duration: 10000
-        })
+        toast.error(err.message)
     }).finally(()=>{
         processing.value = false
     })
@@ -71,11 +74,11 @@ const handleSubmit = async () => {
                             </div>
                         </div>
                         <err-msg :errors="errHandle" />
+                        <p class="error-msg">
+                            {{ errAdmin }}
+                        </p>
                         <div class="grid">
-                            <router-link to="/forgetPassword" class="mb-2 underline dark:text-white text-black">
-                                Forgot your password?
-                            </router-link>
-                            <FormBaseButton :processing="processing" type="submit"
+                            <FormBaseButton :processing="processing" :disabled="processing" :class="{'cursor-none': processing}" type="submit"
                                 class="hover:bg-primary-600 duration-200 transition-all">
                                 Login
                             </FormBaseButton>

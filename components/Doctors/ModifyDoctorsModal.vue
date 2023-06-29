@@ -62,9 +62,6 @@ const rules = {
     age: {
         required
     },
-    whatsapp: {
-        required
-    },
     rating: {
         required
     }, price: {
@@ -96,9 +93,10 @@ const {updateDoctors} = doctorsAuth()
 const submitForm = () => {
     console.log(formData)
     $v.value.$touch()
+    console.log($v.value)
     if ($v.value.$invalid || processing.value)
         return
-        updateDoctors(formData).then((res) => {
+    updateDoctors(formData, doctors.value?._id).then((res) => {
         console.log(res)
     })
 }
