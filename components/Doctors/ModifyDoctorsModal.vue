@@ -91,11 +91,10 @@ const closeModal = () => {
 const processing = ref(false)
 const {updateDoctors} = doctorsAuth()
 const submitForm = () => {
-    console.log(formData)
     $v.value.$touch()
-    console.log($v.value)
     if ($v.value.$invalid || processing.value)
         return
+    processing.value = true    
     updateDoctors(formData, doctors.value?._id).then((res) => {
         console.log(res)
     })

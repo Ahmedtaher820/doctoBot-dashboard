@@ -1,23 +1,23 @@
 
-const instance = () => {
-  const token =  JSON.parse(localStorage.getItem('admin-token'))
+const instance = (headersOptions:any = null) => {
   const config = useRuntimeConfig()
   const fetchConfig = {
     baseURL: config.public.apiUrl,
     headers: {
       Accept: 'application/json',
+      ...headersOptions
     },
     onRequest: ({ options }: { options: any }): any => {
-
       if (process.server) {
         return
       }
-      console.log(token)
-      options.headers = {'Token': `${token}`}
-      // if (token) {
-      //   options.headers['Token'] = `${token}`
-      // }
-      console.log(options.headers)
+      const token =  JSON.parse(localStorage.getItem('admin-token'))
+      // options.headers = {'Token': `${token}`}
+
+      if (token) {
+        options.headers.Authorization = `Bearer ${token}`
+
+      }
     },
     onResponse: ({ response }: { response: { status: number } }): any => {
       // if (response.status === UNAUTHORIZED_CODE && process.client) {

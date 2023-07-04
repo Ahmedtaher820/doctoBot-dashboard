@@ -2,6 +2,8 @@
 import {doctorsAuth} from "../../store/doctors"
 import type {Doctors} from "@/types/types"
 import { useDoctors } from "~/composables/useState"
+import { toast } from 'vue3-toastify';
+
 useHead({
   title:'Doctors',
   meta:[
@@ -13,7 +15,7 @@ useHead({
 })
 const router = useRouter()
 const doctorsState = useDoctors()
-
+const processing = ref(false)
 const addDoctor = (type:string)=>{
   router.push({path:'/doctors/createDoctors'})
 }
@@ -47,21 +49,30 @@ const editDoc = (info: Doctors)=>{
   showModal.value = true
   selectedDoctors.value = info
 }
-const {deleteDoctors} = doctorsAuth()
+const {deleteDoctors, getDoctors} = doctorsAuth()
 const showConfirmModal = ref(false)
 const deleteDoc = (info: Doctors)=>{
  selectedDoctors.value = info
  showConfirmModal.value = true
 }
 const deleteNursesConfirm = ()=>{
+  processing.value = true
   deleteDoctors(selectedDoctors.value?._id).then(()=>{
-    refreshNuxtData('doctors')
+    doctorsState.value = doctorsState.value.filter((item) => item._id !== selectedDoctors.value?._id )
+  }).then(()=>{
+    toast.success('Item deleted successfully')
+  }).finally(()=>{
+    showConfirmModal.value = false
+    processing.value = false
   })
 }
+onMounted(()=>{
+  getDoctors()
+})
 </script>
 <template>
   <div>
-    <AppConfirmModal :show="showConfirmModal" @close="showConfirmModal = false" @cancel="showConfirmModal = false" @delete="deleteNursesConfirm" cateInfo="Doctor info" />
+    <AppConfirmModal :show="showConfirmModal" :processing="processing" @close="showConfirmModal = false" @cancel="showConfirmModal = false" @delete="deleteNursesConfirm" cateInfo="Doctor info" />
   <DoctorsModifyDoctorsModal :doctors="selectedDoctors" :show="showModal" @close="showModal = false" />
 
     <SystemTable @add="addDoctor" class="shadow-md shadow-gray-200">

@@ -15,6 +15,10 @@ const props = defineProps({
   cateInfo:{
     type: String,
     default:''
+  },
+  processing:{
+    type: Boolean,
+    default: false
   }
 })
 const isOpen = ref(true)
@@ -57,8 +61,9 @@ function openModal() {
             leave-to="opacity-0 scale-95"
           >
             <DialogPanel
-              class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+              class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all relative"
             >
+            <over-lay-loader v-if="processing" />
               <DialogTitle
                 as="h3"
                 class="text-lg font-medium pt-4 pb-2 border-b leading-6 text-gray-900"
@@ -72,20 +77,26 @@ function openModal() {
               </div>
 
               <div class="mt-4 flex items-center justify-end py-4 gap-2">
-                <button
+                <FormBaseButton
                   type="button"
-                  class="inline-flex justify-center rounded-md border bg-white px-4 py-2 text-sm font-medium text-black hover:bg-zinc-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  custome-bg="bg-white"
+                  class="inline-flex justify-center rounded-md border  px-4 py-2 text-sm font-medium text-black hover:bg-zinc-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                   @click="$emit('cancel')"
+                  :processing="processing"
                 >
                   Cancel
-                </button>
-                <button
+                </FormBaseButton>
+                <FormBaseButton
                   type="button"
-                  class="inline-flex justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  custome-bg="bg-red-600"
+
+                  class="inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                   @click="$emit('delete')"
+                  :processing="processing"
+
                 >
                   Delete
-                </button>
+                </FormBaseButton>
               </div>
             </DialogPanel>
           </TransitionChild>
