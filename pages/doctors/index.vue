@@ -30,6 +30,8 @@ if(process.client){
 const headers = {
     Authorization: token
 }
+if(doctorsState.value.length === 0){
+
   const { data: doctors, refresh, pending } = await useAsyncData<Doctors[]>('doctors', () =>
   $fetch(`https://doctobot.onrender.com/doctobot/doctors`, {
     params: {
@@ -42,6 +44,7 @@ const headers = {
   {watch: [page]}
   )
   doctorsState.value = doctors.value?.data
+}
 
 const showModal = ref(false)
 const selectedDoctors = ref<Doctors>()

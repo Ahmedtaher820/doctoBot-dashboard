@@ -6,7 +6,7 @@
           <ChartsBar  />
         </div>
         <div class="col-span-4 bg-white p-6 rounded-lg">
-          <!-- <ChartsDoughnut /> -->
+          <ChartsDoughnut />
         </div>
       </div>
     </div>
