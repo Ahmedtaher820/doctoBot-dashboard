@@ -79,7 +79,7 @@ const handleSubmit = async () => {
                         </p>
                         <div class="grid">
                             <FormBaseButton :processing="processing" :disabled="processing" :class="{'cursor-none': processing}" type="submit"
-                                class="hover:bg-primary-600 duration-200 transition-all">
+                                class="hover:bg-primary-600 duration-200 font-semibold transition-all py-2">
                                 Login
                             </FormBaseButton>
                         </div>

@@ -3,23 +3,26 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, minLength, email } from "@vuelidate/validators"
 import { toast } from 'vue3-toastify'
 import {doctorsAuth} from "@/store/doctors"
+
+import { useDoctors } from "~/composables/useState"
+const doctorsState = useDoctors()
+
 const formDataImage = reactive({
   image: null,
 })
 const formData = reactive({
-  name: '',
-  email: '',
-  contactNumber: '',
-  specialiaty: '',
-  address: '',
-  educationYears: '',
-  experienceYears: '',
-  age: '',
-  whatsapp: '',
+  name: 'ahmed',
+  email: 'et89@gmail.com',
+  contactNumber: '01008203698',
+  specialiaty: 'Cardiology',
+  address: 'kfs',
+  educationYears: '20',
+  experienceYears: '20',
+  age: '12',
+  whatsapp: '0108203698',
   image: null,
-  rating: '',
-  price: '',
-  whatsapp:'01013013288'
+  rating: '3',
+  price: '3',
 
 })
 const rules = {
@@ -62,19 +65,54 @@ const rules = {
 }
 const $v = useVuelidate(rules, formData)
 
-const processing = ref(true)
+const processing = ref(false)
 const {createDoctor} = doctorsAuth()
-const submitForm = () => {
-  console.log(formData)
+const errHandle = reactive<{[key: string]: string[]}>({})
+const category = ref('')
+const token = ref('')
+if(process.client){
+  token.value = JSON.parse(localStorage.getItem('admin-token'))
+}
+const submitForm = async() => {
+  console.log(token.value)
+  category.value = ''
+  for (const prop in errHandle)
+    delete errHandle[prop]
+  if(formData.specialiaty.toLowerCase() !== ('cardiology' || 'dermatology' || 'endocrinology' || 'gastroenterology' || 'neurology' || 'pediatrics' || 'psychiatry' || 'surgery')){
+      category.value = `specialiaty: ${formData.specialiaty} is not a valid value for specialiaty.`
+      return
+    }
   // $v.value.$touch()
-  // if ($v.value.$invalid || processing.value)
-  //   return
+  if ($v.value.$invalid || processing.value)
+    return
+  // processing.value = true  
+  // const rawResponse = await fetch('https://doctobot.onrender.com/doctobot/doctors',{
+    //   method:'POST',
+    //   headers: {
+      //     Authorization: `Bearer ${token.value}`
+      //   },
+      //   body:JSON.stringify(formData)
+      // })
+      // const content = await rawResponse.json();
+      console.log(formData)
   createDoctor(formData).then((res)=>{
-        console.log(res)
+    console.log(res.data)
+    doctorsState.value.push(res.data)
+    category.value = ''
+    toast.success('Item created successfully')
+    navigateTo('/doctors')
+  }).catch((err)=>{
+    errHandle['message'] = err.message
+    console.log(errHandle.message)
+  }).finally(()=>{
+  processing.value = false  
+
   })
 }
 const getImage = (event)=>{
-  formData.image = event.target.files[0]
+  const imageFormat = new FormData()
+  // formData.image = `${event.target.files[0]}`
+  formData.image = `{}`
 }
 const showModal = ref(true)
 </script>
@@ -135,7 +173,7 @@ const showModal = ref(true)
           </div>
         </div>
         <div class="form-field ">
-          <input type="number" class="w-full" placeholder=" " v-model="formData.rating" />
+          <input type="number"  class="w-full" placeholder=" " v-model="formData.rating" />
           <label>Rating</label>
           <div class="input-errors" v-for="error of $v.rating.$errors" :key="error.$uid">
             <div class="error-msg">{{ error.$message }}</div>
@@ -167,13 +205,19 @@ const showModal = ref(true)
         <div class="">
           <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="default_size">Doctor image</label>
           <input
-            class="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 p-2"
+            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 p-2"
             accept="image/*"
         maxlength="1"
 
             id="default_size" type="file" @change="getImage">
         </div>
-        <FormBaseButton type="submit" custome-bg="bg-green-500" class="text-white w-1/4 ms-auto md:mt-6 rounded-none">Create
+        <p class="error-msg" v-if="errHandle?.message?.length > 0">
+          {{ errHandle?.message }}
+        </p>
+        <p class="error-msg" v-if="category.length > 0">
+          {{ category }}
+        </p>
+        <FormBaseButton type="submit"  :processing="processing" custome-bg="bg-green-500" class="text-white py-2 w-1/4 ms-auto md:mt-6 disabled:bg-green-400 rounded-none">Create
         </FormBaseButton>
       </form>
     </div>

@@ -5,7 +5,8 @@ const instance = (headersOptions:any = null) => {
     baseURL: config.public.apiUrl,
     headers: {
       Accept: 'application/json',
-      ...headersOptions
+      
+      // ...headersOptions
     },
     onRequest: ({ options }: { options: any }): any => {
       if (process.server) {
@@ -16,7 +17,6 @@ const instance = (headersOptions:any = null) => {
 
       if (token) {
         options.headers.Authorization = `Bearer ${token}`
-
       }
     },
     onResponse: ({ response }: { response: { status: number } }): any => {

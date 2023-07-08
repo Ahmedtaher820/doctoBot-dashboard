@@ -10,13 +10,13 @@
         </div>
       </div>
     </div>
-  </template>
+</template>
   
-  <script lang="ts" setup>
-
-
-  </script>
+<script lang="ts" setup>
+definePageMeta({
+  layout:'default'
+})
+</script>
+<style>
   
-  <style>
-  
-  </style>
+</style>

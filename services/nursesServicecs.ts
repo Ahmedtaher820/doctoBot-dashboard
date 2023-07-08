@@ -1,21 +1,21 @@
 import DataServices from "./Common/DataServices"
 import type { Pagination, Nurses } from "@/types/types"
-
+const headers =  {
+  'Content-Type': 'multipart/form-data',
+}
 export default {
+  
+  getAllNurses() {
+    return DataServices(headers).get('/nurses')
+  },
   createNurses(payload: Nurses) {
-    return DataServices().post('/nurses', {
+    return DataServices(headers).post('/nurses', {
       body: payload,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
     })
   },
-  updateNurses(payload: Nurses) {
-    return DataServices().put('/nurses', {
+  updateNurses(payload: Nurses,uuid:string) {
+    return DataServices(headers).put('/nurses/'+uuid, {
       body: payload,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
     })
   },
   deleteNurses(nursesUuid: string) {

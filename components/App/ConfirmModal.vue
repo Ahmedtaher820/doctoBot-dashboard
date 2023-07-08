@@ -23,12 +23,6 @@ const props = defineProps({
 })
 const isOpen = ref(true)
 
-function closeModal() {
-  isOpen.value = false
-}
-function openModal() {
-  isOpen.value = true
-}
 </script>
 
 <template>
@@ -81,7 +75,7 @@ function openModal() {
                   type="button"
                   custome-bg="bg-white"
                   class="inline-flex justify-center rounded-md border  px-4 py-2 text-sm font-medium text-black hover:bg-zinc-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                  @click="$emit('cancel')"
+                  @click="$emit('close')"
                   :processing="processing"
                 >
                   Cancel

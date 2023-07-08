@@ -14,7 +14,7 @@ const props = defineProps({
         type: Object as PropType<Nurses | undefined>
     }
 })
-const emits = defineEmits(['close'])
+const emits = defineEmits(['close','updated'])
 
 const formData = reactive({
     name: '',
@@ -70,6 +70,7 @@ watch(() => nurses?.value, (val: Nurses) => {
     formData.name = nurses?.value?.name || ''
     formData.shift = nurses?.value?.shift || ''
     formData.contactNumber = nurses?.value?.contactNumber || ''
+    formData.whatsapp = nurses?.value?.whatsapp || ''
     formData.email = nurses?.value?.email || ''
     formData.address = nurses?.value?.address || ''
     formData.price = nurses?.value?.price || '100'
@@ -77,16 +78,24 @@ watch(() => nurses?.value, (val: Nurses) => {
     formData.experienceYears = nurses?.value?.experienceYears || ''
     formData.age = nurses?.value?.age || ''
     imgUrl.value = nurses?.value?.image || ''
+    formData.image = nurses?.value?.image || ''
 })
 const showModal = ref(true)
 const processing = ref(false)
+const route = useRoute()
 const { updateNurses } = nursesStore()
 const submitForm = () => {
     $v.value.$touch()
+    console.log($v.value.$errors)
     if ($v.value.$invalid || processing.value)
         return
-    updateNurses(formData).then((res) => {
-        console.log(res)
+    processing.value = true    
+    updateNurses(formData,nurses?.value?._id).then((res) => {
+        emits('close')
+        emits('updated')
+    }).finally(()=>{
+    processing.value = false    
+
     })
 }
 const getImage = (event) => {
@@ -120,7 +129,14 @@ const getImage = (event) => {
                     <div class="error-msg">{{ error.$message }}</div>
                 </div>
             </div>
-
+            <div class="form-field ">
+                <input type="text" class="w-full dark:text-white text-black" placeholder=" "
+                    v-model="formData.whatsapp" />
+                <label class="dark:text-white text-black">Whatsapp</label>
+                <div class="input-errors" v-for="error of $v.whatsapp.$errors" :key="error.$uid">
+                    <div class="error-msg">{{ error.$message }}</div>
+                </div>
+            </div>
             <div class="form-field">
                 <input type="email" class="w-full dark:text-white text-black" placeholder=" " v-model="formData.email" />
                 <label class="dark:text-white text-black">Email</label>
@@ -179,7 +195,7 @@ const getImage = (event) => {
                     <img class="w-16 h-16 rounded-full " :src="imgUrl" alt="">
                 </div>
             </div>
-            <FormBaseButton type="submit" custome-bg="bg-green-500" class="text-white w-1/4 ms-auto md:mt-6 rounded-none">
+            <FormBaseButton type="submit" custome-bg="bg-green-500" class="text-white w-1/4 py-2 ms-auto md:mt-6 rounded-none">
                 Create
             </FormBaseButton>
         </form>

@@ -23,10 +23,6 @@ export interface DocProfile {
     category: string
     uuid: string
 }
-
-
-
-
 export interface Paginate {
     currentPage: number,
     limit: number,
@@ -34,11 +30,12 @@ export interface Paginate {
     next: number,
     prev: number
 }
+type specialiaty = 'Cardiology' | 'Dermatology' | 'Endocrinology' | 'Gastroenterology' | 'Neurology' | 'Pediatrics' | 'Psychiatry' | 'Surgery'
 export interface Doctors {
     _id?: string
     name: string
     age: string
-    specialiaty: string
+    specialiaty: specialiaty
     educationYears: string
     whatsapp: string
     experienceYears: string
@@ -100,8 +97,9 @@ export interface Pagination<T> {
 export interface User {
     name: string
     email: string
-    password: string
     role: string
-    active: boolean
-    _id: string
+    active?: boolean
+    _id?: string
+    phone: string
+    slug?: string
 }

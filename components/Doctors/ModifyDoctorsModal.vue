@@ -15,7 +15,7 @@ const props = defineProps({
         type: Object as PropType<Doctors | undefined>
     }
 })
-const emits = defineEmits(['close'])
+const emits = defineEmits(['close','updated'])
 
 const formData = reactive({
     name: '',
@@ -82,6 +82,7 @@ watch(() => doctors?.value, (val: Doctors) => {
     formData.educationYears = doctors?.value?.educationYears || ''
     formData.experienceYears = doctors?.value?.experienceYears || ''
     formData.age = doctors?.value?.age || ''
+    formData.image = doctors?.value?.image || null
     imgUrl.value = doctors?.value?.image || ''
 })
 const showModal = ref(true)
@@ -95,8 +96,14 @@ const submitForm = () => {
     if ($v.value.$invalid || processing.value)
         return
     processing.value = true    
+    showModal.value = false
+
     updateDoctors(formData, doctors.value?._id).then((res) => {
-        console.log(res)
+        emits('close')
+        emits('updated')
+    }).finally(()=>{
+    processing.value = false    
+
     })
 }
 const getImage = (event) => {
@@ -199,8 +206,8 @@ const getImage = (event) => {
                     <img class="w-16 h-16 rounded-full " :src="imgUrl" alt="">
                 </div>
             </div>
-        <FormBaseButton type="submit" custome-bg="bg-green-500" class="text-white w-1/4 ms-auto md:mt-6 rounded-none">
-            Create
+        <FormBaseButton type="submit" :processing="processing" custome-bg="bg-green-500" class="text-white w-1/4 ms-auto md:mt-6 rounded-none py-2">
+            Updated
         </FormBaseButton>
     </form>
 </AppModal></template>

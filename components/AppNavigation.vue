@@ -74,8 +74,10 @@ const logout = ()=>{
           <div class="-ml-2 mr-2 flex-1 flex items-center justify-between">
             <!-- Mobile menu button -->
             <div class="flex flex-shrink-0 items-center">
-              <img class="block h-8 w-auto lg:hidden" src="/logo.svg" alt="Your Company" />
-              <img class="hidden h-8 w-auto lg:block" src="/logo.svg" alt="Your Company" />
+              <router-link to="/" class="logo">
+                <img class="block h-8 w-auto lg:hidden" src="/logo.svg" alt="Your Company" />
+                <img class="hidden h-8 w-auto lg:block" src="/logo.svg" alt="Your Company" />
+              </router-link>
             </div>
             <DisclosureButton class="block lg:hidden items-center justify-center rounded-md p-2 text-gray-400  hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
               <span class="sr-only">Open main menu</span>
@@ -112,11 +114,11 @@ const logout = ()=>{
               </div>
               <transition enter-active-class="transition ease-out duration-200" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
                 <MenuItems class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  
                   <MenuItem v-slot="{ active }">
-                    <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Your Profile</a>
-                  </MenuItem>
-                  <MenuItem v-slot="{ active }">
-                    <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Settings</a>
+                    <span class="block px-4 py-2 text-base font-medium text-gray-500  sm:px-6" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">
+                      <span class="block cursor-pointer" @click="navigateTo('/profile')">Profile</span>
+                    </span>
                   </MenuItem>
                   <MenuItem v-slot="{ active }">
                     <span  :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']" to="/" class="block px-4 py-2 text-base font-medium text-gray-500  sm:px-6">
@@ -155,7 +157,7 @@ const logout = ()=>{
           </button>
         </div>
         <div class="mt-3 space-y-1">
-          <DisclosureButton as="a" href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Your Profile</DisclosureButton>
+          
           <DisclosureButton as="a" href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Settings</DisclosureButton>
           <DisclosureButton to="/" class="block px-4 py-2 text-base font-medium text-gray-500  hover:bg-gray-100 hover:text-gray-800 w-full text-left sm:px-6">
             <span @click="logout">Sign out</span>
@@ -183,5 +185,9 @@ body {
 }
 .router-link-active,.router-link-exact-active{
   @apply bg-primary text-white dark:text-white
+}
+.router-link-active.logo,
+.router-link-exact-active.logo{
+  @apply bg-white border-none
 }
 </style>
