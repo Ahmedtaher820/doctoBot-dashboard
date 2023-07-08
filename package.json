@@ -17,6 +17,7 @@
     "nuxt-headlessui": "^1.1.4"
   },
   "dependencies": {
+    "@canvasjs/vue-charts": "^1.0.1",
     "@headlessui/vue": "^0.0.0-insiders.0a9276d",
     "@heroicons/vue": "^2.0.18",
     "@pinia/nuxt": "^0.4.11",
