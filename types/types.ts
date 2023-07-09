@@ -103,3 +103,17 @@ export interface User {
     phone: string
     slug?: string
 }
+export interface Reservations {
+    createdAt: string
+    end: string
+    isPaid: boolean
+    paidAt: string
+    phone: string
+    reservationPlace: string
+    reservationStatus: boolean
+    start: string
+    totalPaid: number
+    updatedAt: string
+    _id: string
+    doctor:string
+}   

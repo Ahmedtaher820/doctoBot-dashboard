@@ -37,7 +37,8 @@ loadingIndicator:{
 },
 build:{
   // vue-toastification - old commonjs module 
-  transpile: ['vue-toastification'],
+  transpile: ['vue-toastification','@heroicons/vue'],
+
 }
 // components: [
 //   {

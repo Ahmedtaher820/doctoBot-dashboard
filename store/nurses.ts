@@ -1,11 +1,11 @@
 import {defineStore} from "pinia"
 import Auth from "../services/nursesServicecs"
-import type {Pagination,Nurses} from "@/types/types"
+import type {Pagination,Nurses,Reservations} from "@/types/types"
 
 export const nursesStore = defineStore({
     id:'nurses',
     state:()=>({
-    
+        reservations:[] as Reservations[]
     }),
     actions:{
         async getAllNurses(){
@@ -27,6 +27,18 @@ export const nursesStore = defineStore({
             return Auth.updateNurses(payload,uuid).then((res)=>{
                 return res
             })
-        }
+        },
+        async getNursersReservations(): Promise<Reservations[]>{
+            return Auth.getNursersReservations().then((res)=>{
+                this.reservations = res?.data
+                return res
+            })
+        },
+        async deleteReservation(uuid:string){
+            return Auth.deleteReservation(uuid).then((res)=>{
+                return res
+            })
+        },
+        
     }
 })

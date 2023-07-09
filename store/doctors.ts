@@ -1,16 +1,18 @@
 import {defineStore} from "pinia"
 import doctorsServices from "../services/doctors"
-import type {Pagination,Doctors} from "@/types/types"
+import type {Pagination,Doctors,Reservations} from "@/types/types"
 
 export const doctorsAuth = defineStore({
     id:'doctors',
     state:()=>({
+        reservations:[] as Reservations[],
+        doctors: [] as Doctors[]
     
     }),
     actions:{
         async getDoctors(): Promise<Pagination<Doctors>>{
             return doctorsServices.getAllDoctors().then((res)=>{
-                console.log(res)
+                this.doctors = res.data
                 return res
             })
         },
@@ -28,6 +30,16 @@ export const doctorsAuth = defineStore({
             return doctorsServices.updateDoctors(payload,uuid).then((res)=>{
                 return res
             })
-        }
+        },
+        async getDoctorReservations(): Promise<any>{
+            return doctorsServices.getDoctorReservations().then((res)=>{
+                this.reservations = res?.data
+            })
+        },
+        async deleteReservation(uuid:string){
+            return doctorsServices.deleteReservation(uuid).then((res)=>{
+                return res
+            })
+        },
     }
 })

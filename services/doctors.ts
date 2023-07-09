@@ -1,5 +1,5 @@
 import DataServices from "./Common/DataServices"
-import type { Pagination, Doctors } from "@/types/types"
+import type { Pagination, Doctors, Reservations } from "@/types/types"
 const headers =  {
     'Content-Type': 'multipart/form-data',
   }
@@ -20,4 +20,10 @@ export default {
             body: payload,
         })
     },
+    getDoctorReservations() {
+        return DataServices(headers).get(`reservations/doctors`)
+    },
+    deleteReservation(uuid: string) {
+        return DataServices().default(`/reservations/doctors/${uuid}`)
+      },
 }

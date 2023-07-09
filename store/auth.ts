@@ -35,6 +35,7 @@ export const authStore = defineStore({
                 this.user = data
                 return data
             })
-        }
+        },
+        
     }
 })
