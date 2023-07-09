@@ -53,10 +53,10 @@ const showDoctor = async(uuid: string) => {
         <AppConfirmModal :show="confirmModal" :processing="processing" @close="confirmModal = false"
             @cancel="confirmModal = false" @delete="deleteNursesConfirm" cateInfo="Doctor info" />
         <over-lay-loader v-if="processing" />
-        <h1 class="text-2xl mt-8 mb-6">Number of <span class="font-bold">doctors</span> reservation: {{ reservations.length }}
+        <h1 class="text-2xl mt-8 mb-6 dark:text-white">Number of <span class="font-bold">doctors</span> reservation: {{ reservations.length }}
         </h1>
         <div class="grid lg:grid-cols-3 gap-8 md:grid-cols-2 grid-cols-1">
-            <div class="border border-zinc-300 py-2 relative px-6 rounded-lg flex flex-col gap-1"
+            <div class="border border-zinc-300 text-white py-2 relative px-6 rounded-lg flex flex-col gap-1"
                 v-for="reservation in reservations" :key="reservation._id">
                 <!-- <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mb-2" viewBox="0 0 15 15">
                     <path fill="#888888"
@@ -65,18 +65,18 @@ const showDoctor = async(uuid: string) => {
                 <TrashIcon class="w-6 h-6 text-red-600 cursor-pointer absolute top-3 right-3"
                     @click="removeReservations(reservation._id)" />
                 <h4 class="text-base font-semibold"> place: <span
-                        class="text-zinc-500 text-sm  ">{{ reservation.reservationPlace ? reservation.reservationPlace : 'Not Avaliable'}}</span></h4>
+                        class="light:text-zinc-500 dark:text-neutral-400 text-sm  ">{{ reservation.reservationPlace ? reservation.reservationPlace : 'Not Avaliable'}}</span></h4>
                 <div class="">
-                    <h4 class="text-base font-semibold"> phone: <span class="text-zinc-500 text-sm">{{ reservation.phone ?
+                    <h4 class="text-base font-semibold"> phone: <span class="text-zinc-500 dark:text-neutral-400 text-sm">{{ reservation.phone ?
                         reservation.phone : 'Not Avaliable' }}</span></h4>
                 </div>
                 <div class="">
-                    <h4 class="text-base font-semibold"> paid At: <span class="text-zinc-500 text-sm">{{ reservation.paidAt ?
+                    <h4 class="text-base font-semibold"> paid At: <span class="text-zinc-500 dark:text-neutral-400 text-sm">{{ reservation.paidAt ?
                         reservation.paidAt : 'Not Avaliable' }}</span></h4>
                 </div>
                 <div class="">
                     <h4 class="text-base font-semibold"> total paid: <span
-                            class="text-zinc-500 text-sm">{{ reservation.totalPaid ? reservation.totalPaid : 'Not Avaliable'}}</span></h4>
+                            class="text-zinc-500 dark:text-neutral-400 text-sm">{{ reservation.totalPaid ? reservation.totalPaid : 'Not Avaliable'}}</span></h4>
                 </div>
                 <div class="">
                     <h4 class="text-base font-semibold"> is paid? : <span class=" text-sm"
