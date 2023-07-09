@@ -122,10 +122,7 @@ const logout = ()=>{
         </div>
         <div class="flex items-center">
           <div class="hidden md:ml-4 md:flex md:flex-shrink-0 md:items-center">
-            <select v-model="$colorMode.preference">
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
-            </select>
+            
             <!-- Profile dropdown -->
             <Menu as="div" class="relative ml-3">
               <div>
@@ -150,6 +147,10 @@ const logout = ()=>{
                 </MenuItems>
               </transition>
             </Menu>
+            <select v-model="$colorMode.preference" class="ms-6 dark:bg-bodyColorDark dark:text-white border-none">
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
           </div>
         </div>
       </div>

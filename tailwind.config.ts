@@ -14,7 +14,7 @@ const bodyColorLight = {
 }
 const bodyColorDark = {
   DEFAULT : '#0f172a'
-}
+} 
 const textColor = {
   DEFAULT: '#707070',
 }
