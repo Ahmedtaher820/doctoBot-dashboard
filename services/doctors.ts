@@ -21,9 +21,9 @@ export default {
         })
     },
     getDoctorReservations() {
-        return DataServices(headers).get(`reservations/doctors`)
+        return DataServices(headers).get(`calenders/doctors`)
     },
     deleteReservation(uuid: string) {
-        return DataServices().default(`/reservations/doctors/${uuid}`)
+        return DataServices().default(`/calenders/doctors/${uuid}`)
       },
 }

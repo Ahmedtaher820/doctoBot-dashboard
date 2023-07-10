@@ -41,19 +41,24 @@ const deleteNursesConfirm = async()=>{
     <div class="grid lg:grid-cols-3 gap-8 md:grid-cols-2 grid-cols-1">
       <div class="border border-zinc-300 py-2 relative px-6 rounded-lg flex flex-col gap-1" v-for="reservation in reservations" :key="reservation._id">
         <TrashIcon class="w-6 h-6 text-red-600 cursor-pointer absolute top-3 right-3" @click="removeReservations(reservation._id)" />
-        <h4 class="text-base font-semibold dark:text-white light:text-black"> place: <span class="text-zinc-500  dark:text-neutral-400 text-sm  ">{{reservation.reservationPlace  ? reservation.reservationPlace : 'Not Avaliable'}}</span></h4>
-        <div class="">
-          <h4 class="text-base font-semibold dark:text-white light:text-black"> phone: <span class="text-zinc-500  dark:text-neutral-400 text-sm">{{reservation.phone  ? reservation.phone : 'Not Avaliable'}}</span></h4>
-        </div>
-        <div class="">
-          <h4 class="text-base font-semibold dark:text-white light:text-black"> paid At: <span class="text-zinc-500  dark:text-neutral-400 text-sm">{{reservation.paidAt  ? reservation.paidAt : 'Not Avaliable'}}</span></h4>
-        </div>
-        <div class="">
-          <h4 class="text-base font-semibold dark:text-white light:text-black"> total paid: <span class="text-zinc-500 dark:text-neutral-400  text-sm">{{reservation.totalPaid  ? reservation.totalPaid : 'Not Avaliable'}}</span></h4>
-        </div>
-        <div class="">
-          <h4 class="text-base font-semibold dark:text-white light:text-black"> is paid? : <span class=" text-sm" :class="[reservation.isPaid ? 'bg-green-400 text-white py-0.5 px-2 rounded-md' : 'bg-red-400 text-white py-1 px-2 rounded-md']">{{reservation.isPaid ? 'confirm' : 'not paied' }}</span></h4>
-        </div>
+        <h4 class="text-base font-semibold dark:text-white light:text-black"> weekday: <span
+          class="light:text-zinc-500 dark:text-neutral-400 text-sm  ">{{ reservation.weekday ? reservation.weekday : 'Not Avaliable'}}</span></h4>
+  <div class="">
+      <h4 class="text-base font-semibold dark:text-white light:text-black"> month: <span class="text-zinc-500 dark:text-neutral-400 text-sm">{{ reservation.month ?
+          reservation.month : 'Not Avaliable' }}</span></h4>
+  </div>
+  <div class="">
+      <h4 class="text-base font-semibold dark:text-white light:text-black"> day: <span class="text-zinc-500 dark:text-neutral-400 text-sm">{{ reservation.day ?
+          reservation.day : 'Not Avaliable' }}</span></h4>
+  </div>
+  <div class="">
+      <h4 class="text-base font-semibold dark:text-white light:text-black"> total paid: <span
+              class="text-zinc-500 dark:text-neutral-400 text-sm">{{ reservation.startAt ? reservation.startAt : 'Not Avaliable'}}</span></h4>
+  </div>
+  <div class="">
+      <h4 class="text-base font-semibold dark:text-white light:text-black"> total paid: <span
+              class="text-zinc-500 dark:text-neutral-400 text-sm">{{ reservation.endAt ? reservation.endAt : 'Not Avaliable'}}</span></h4>
+  </div>
       </div>
     </div>
   </div>

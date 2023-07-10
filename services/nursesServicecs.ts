@@ -22,9 +22,9 @@ export default {
     return DataServices().default(`/nurses/${nursesUuid}`)
   },
   getNursersReservations() {
-    return DataServices().get<Reservations[]>(`/reservations/nurses`)
+    return DataServices().get<Reservations[]>(`/calenders/nurses`)
   },
   deleteReservation(uuid: string) {
-    return DataServices().default(`/reservations/nurses/${uuid}`)
+    return DataServices().default(`/calenders/nurses/${uuid}`)
   },
 }
